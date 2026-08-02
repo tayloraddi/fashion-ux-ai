@@ -1,0 +1,2057 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+<title>Fashion UX AI</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f7f5f2;
+    color: #1f1f1f;
+}
+
+
+.page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 30px;
+}
+
+
+/* HEADER */
+
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+
+.logo {
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+
+
+h1 {
+    font-family: Georgia, serif;
+    font-size: 64px;
+    font-weight: normal;
+    margin: 0;
+    letter-spacing: -2px;
+}
+
+
+.subtitle {
+    max-width: 600px;
+    margin: 20px auto 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #666;
+}
+
+
+/* MAIN CARD */
+
+.card {
+    background: white;
+    padding: 45px;
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 40px
+        rgba(0, 0, 0, 0.06);
+}
+
+
+h2 {
+    font-family: Georgia, serif;
+    font-size: 32px;
+    font-weight: normal;
+    margin-top: 0;
+}
+
+
+.section-description {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+
+label {
+    display: block;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+
+input {
+    width: 100%;
+    padding: 14px;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    font-size: 16px;
+    background: #fafafa;
+}
+
+
+input:focus {
+    outline: none;
+    border-color: #222;
+    background: white;
+}
+
+
+#file {
+    background: white;
+    cursor: pointer;
+}
+
+
+/* PERSONAS */
+
+.persona-options {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin-top: 15px;
+}
+
+
+.persona-option {
+
+    margin-top: 0;
+
+    width: 100%;
+
+    padding: 25px 20px;
+
+    background: white;
+
+    color: #222;
+
+    border: 1px solid #ddd;
+
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    font-size: 16px;
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        border 0.2s;
+
+}
+
+
+.persona-option:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(0, 0, 0, 0.08);
+
+}
+
+
+.persona-option.selected {
+
+    border:
+        2px solid #222;
+
+    background:
+        #fafafa;
+
+}
+
+
+/* PERSONA EMOJIS */
+
+.persona-emoji {
+
+    display:
+        block;
+
+    font-size:
+        28px;
+
+    line-height:
+        1.2;
+
+}
+
+
+.persona-option .persona-emoji {
+
+    color:
+        #222;
+
+}
+
+
+.persona-option span:not(.persona-emoji) {
+
+    font-size:
+        14px;
+
+    color:
+        #777;
+
+}
+
+
+.custom-note {
+
+    color:
+        #777;
+
+    font-size:
+        14px;
+
+    margin-top:
+        15px;
+
+}
+
+
+/* BUTTON */
+
+button[type="submit"] {
+
+    margin-top:
+        35px;
+
+    width:
+        100%;
+
+    padding:
+        16px;
+
+    background:
+        #222;
+
+    color:
+        white;
+
+    border:
+        none;
+
+    border-radius:
+        10px;
+
+    font-size:
+        17px;
+
+    font-weight:
+        bold;
+
+    cursor:
+        pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+
+}
+
+
+button[type="submit"]:hover {
+
+    background:
+        #444;
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+/* RESULTS */
+
+#result {
+
+    margin-top:
+        40px;
+
+    padding:
+        30px;
+
+    background:
+        #f7f5f2;
+
+    border-radius:
+        14px;
+
+    display:
+        none;
+
+}
+
+
+/* LOADING SCREEN */
+
+#loadingScreen {
+
+    text-align:
+        center;
+
+    padding:
+        60px 20px;
+
+}
+
+
+.loader {
+
+    width:
+        60px;
+
+    height:
+        60px;
+
+    border:
+        5px solid #ddd;
+
+    border-top:
+        5px solid #222;
+
+    border-radius:
+        50%;
+
+    margin:
+        0 auto 25px;
+
+    animation:
+        spin 1s linear infinite;
+
+}
+
+
+@keyframes spin {
+
+    from {
+
+        transform:
+            rotate(0deg);
+
+    }
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+.loading-title {
+
+    font-family:
+        Georgia, serif;
+
+    font-size:
+        28px;
+
+    margin-bottom:
+        10px;
+
+}
+
+
+.loading-text {
+
+    color:
+        #777;
+
+    font-size:
+        16px;
+
+}
+
+
+/* RESULTS HEADER */
+
+.results-header {
+
+    text-align:
+        center;
+
+    margin-bottom:
+        35px;
+
+}
+
+
+.results-header h2 {
+
+    margin-bottom:
+        10px;
+
+}
+
+
+.results-header p {
+
+    color:
+        #666;
+
+}
+
+/* SCORE */
+
+.score-container {
+
+text-align:
+    center;
+
+margin:
+    30px 0 45px;
+
+}
+
+
+.score-circle {
+
+width:
+    170px;
+
+height:
+    170px;
+
+border-radius:
+    50%;
+
+margin:
+    0 auto 20px;
+
+background:
+    white;
+
+border:
+    10px solid #222;
+
+display:
+    flex;
+
+flex-direction:
+    column;
+
+justify-content:
+    center;
+
+align-items:
+    center;
+
+box-shadow:
+    0 8px 25px
+    rgba(0, 0, 0, 0.08);
+
+transition:
+    border-color 0.3s,
+    transform 0.3s;
+
+}
+
+
+.score-circle:hover {
+
+transform:
+    scale(1.03);
+
+}
+
+
+.score-number {
+
+font-family:
+    Georgia, serif;
+
+font-size:
+    52px;
+
+line-height:
+    1;
+
+}
+
+
+.score-label {
+
+font-size:
+    14px;
+
+color:
+    #777;
+
+margin-top:
+    5px;
+
+}
+
+
+.score-description {
+
+font-size:
+    18px;
+
+color:
+    #555;
+
+font-weight:
+    500;
+
+}
+
+
+/* SCORE STATES */
+
+.score-excellent {
+
+border-color:
+    #222;
+
+}
+
+
+.score-very-good {
+
+border-color:
+    #444;
+
+}
+
+
+.score-good {
+
+border-color:
+    #666;
+
+}
+
+
+.score-needs-improvement {
+
+border-color:
+    #888;
+
+}
+
+
+.score-poor {
+
+border-color:
+    #aaa;
+
+}
+
+
+.score-circle {
+
+    width:
+        170px;
+
+    height:
+        170px;
+
+    border-radius:
+        50%;
+
+    margin:
+        0 auto 20px;
+
+    background:
+        white;
+
+    border:
+        10px solid #222;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, 0.08);
+
+}
+
+
+.score-number {
+
+    font-family:
+        Georgia, serif;
+
+    font-size:
+        52px;
+
+    line-height:
+        1;
+
+}
+
+
+.score-label {
+
+    font-size:
+        14px;
+
+    color:
+        #777;
+
+    margin-top:
+        5px;
+
+}
+
+
+.score-description {
+
+    font-size:
+        18px;
+
+    color:
+        #555;
+
+}
+
+
+/* RESULT GRID */
+
+.results-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        25px;
+
+    margin-bottom:
+        35px;
+
+}
+
+
+.screenshot-card,
+.persona-result {
+
+    background:
+        white;
+
+    padding:
+        25px;
+
+    border-radius:
+        14px;
+
+}
+
+
+.screenshot-card h3,
+.persona-result h3 {
+
+    margin-top:
+        0;
+
+    font-family:
+        Georgia, serif;
+
+}
+
+
+#uploadedImage {
+
+    width:
+        100%;
+
+    max-height:
+        400px;
+
+    object-fit:
+        contain;
+
+    border-radius:
+        10px;
+
+    margin-top:
+        15px;
+
+    background:
+        #f7f5f2;
+
+}
+
+
+#persona {
+
+    line-height:
+        1.7;
+
+    color:
+        #555;
+
+}
+
+
+/* ANALYSIS CARDS */
+
+.analysis-content {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        20px;
+
+}
+
+
+.section {
+
+    background:
+        white;
+
+    padding:
+        25px;
+
+    border-radius:
+        14px;
+
+    border:
+        1px solid #eee;
+
+    line-height:
+        1.8;
+
+    box-shadow:
+        0 5px 18px
+        rgba(0, 0, 0, 0.04);
+
+}
+
+
+.section h3 {
+
+    font-family:
+        Georgia, serif;
+
+    font-size:
+        22px;
+
+    font-weight:
+        normal;
+
+    margin-top:
+        0;
+
+    margin-bottom:
+        12px;
+
+}
+
+
+.section p {
+
+    color:
+        #555;
+
+    margin:
+        0;
+
+}
+
+
+/* RECOMMENDATIONS CARD */
+
+.section:has(.recommendations) {
+
+    grid-column:
+        span 2;
+
+}
+
+
+.recommendations {
+
+    color:
+        #555;
+
+    padding-left:
+        25px;
+
+    margin-bottom:
+        0;
+
+}
+
+
+.recommendations li {
+
+    margin-bottom:
+        12px;
+
+}
+
+
+.recommendations li:last-child {
+
+    margin-bottom:
+        0;
+
+}
+
+
+/* ANALYZE AGAIN */
+
+#analyzeAgain {
+
+    margin-top:
+        30px;
+
+    width:
+        100%;
+
+    padding:
+        16px;
+
+    background:
+        white;
+
+    color:
+        #222;
+
+    border:
+        1px solid #222;
+
+    border-radius:
+        10px;
+
+    font-size:
+        17px;
+
+    font-weight:
+        bold;
+
+    cursor:
+        pointer;
+
+}
+
+
+#analyzeAgain:hover {
+
+    background:
+        #222;
+
+    color:
+        white;
+
+}
+
+
+.error {
+
+    color:
+        #b00020;
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .page {
+
+        padding:
+            35px 20px;
+
+    }
+
+
+    h1 {
+
+        font-size:
+            45px;
+
+    }
+
+
+    .card {
+
+        padding:
+            25px;
+
+    }
+
+
+    .persona-options {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .results-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .analysis-content {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .section:has(.recommendations) {
+
+        grid-column:
+            span 1;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="logo">
+    FASHION UX AI
+</div>
+
+
+<h1>
+    See fashion through
+    your user's eyes.
+</h1>
+
+
+<p class="subtitle">
+    Analyze fashion websites and interfaces
+    from the perspective of real-world users
+    using AI-powered persona research.
+</p>
+
+</div>
+
+<!-- INPUT CARD -->
+
+<div class="card">
+
+<h2>
+    Analyze a Fashion Experience
+</h2>
+
+<p class="section-description">
+    Upload a screenshot and see how your selected
+    user persona experiences the interface.
+</p>
+
+<form id="uploadForm">
+
+<label for="file">
+    Upload a Website Screenshot
+</label>
+
+<input
+type="file"
+id="file"
+name="file"
+accept="image/*"
+required
+
+>
+
+<label>
+    Choose a Preset Persona (Optional)
+</label>
+
+<div class="persona-options">
+
+<button
+type="button"
+class="persona-option"
+data-age="22"
+data-location="Atlanta, Georgia"
+data-occupation="College Student"
+
+>
+
+<span class="persona-emoji">🎓</span>
+
+<strong>
+    College Student
+</strong>
+
+<span>
+    22 · Atlanta, GA
+</span>
+
+</button>
+
+<button
+type="button"
+class="persona-option"
+data-age="28"
+data-location="New York, New York"
+data-occupation="Marketing Manager"
+
+>
+
+<span class="persona-emoji">💼</span>
+
+<strong>
+    Young Professional
+</strong>
+
+<span>
+    28 · New York, NY
+</span>
+
+</button>
+
+<button
+type="button"
+class="persona-option"
+data-age="24"
+data-location="Los Angeles, California"
+data-occupation="Fashion Blogger"
+
+>
+<span class="persona-emoji">👗</span>
+
+<strong>
+    Fashion Enthusiast
+</strong>
+    24 · Los Angeles, CA
+</span>
+
+</button>
+
+</div>
+
+<p class="custom-note">
+    Select a preset to automatically fill your persona,
+    or customize the fields below.
+</p>
+
+<label for="age">
+    Age
+</label>
+
+<input
+type="number"
+id="age"
+name="age"
+placeholder="Example: 22"
+required
+
+>
+
+<label for="location">
+    Location
+</label>
+
+<input
+type="text"
+id="location"
+name="location"
+placeholder="Example: Atlanta, Georgia"
+required
+
+>
+
+<label for="occupation">
+    Occupation
+</label>
+
+<input
+type="text"
+id="occupation"
+name="occupation"
+placeholder="Example: Student"
+required
+
+>
+
+<button type="submit">
+    Analyze UX
+</button>
+
+</form>
+
+</div>
+
+<!-- RESULTS -->
+
+<div
+    class="card"
+    id="result"
+>
+
+<!-- LOADING -->
+
+<div id="loadingScreen">
+
+<div class="loader"></div>
+
+
+<div class="loading-title">
+    Analyzing your experience...
+</div>
+
+
+<p class="loading-text">
+    Our AI is seeing this interface through
+    your user's eyes.
+</p>
+
+</div>
+
+<!-- ACTUAL RESULTS -->
+
+<div id="actualResults"
+     style="display: none;">
+
+<div class="results-header">
+
+<h2>
+    Your UX Analysis
+</h2>
+
+<p>
+    Here's how your selected persona experiences
+    this fashion interface.
+</p>
+
+</div>
+
+<!-- SCORE -->
+
+<div class="score-container">
+
+<div class="score-circle">
+
+
+    <div
+        class="score-number"
+        id="scoreNumber"
+    >
+        --
+    </div>
+
+
+    <div class="score-label">
+        UX SCORE
+    </div>
+
+
+</div>
+
+
+<div
+    class="score-description"
+    id="scoreDescription"
+>
+</div>
+
+</div>
+
+<!-- IMAGE + PERSONA -->
+
+<div class="results-grid">
+
+<div class="screenshot-card">
+
+<h3>
+    📸 Interface Analyzed
+</h3>
+
+<img
+id="uploadedImage"
+src=""
+alt="Uploaded website screenshot"
+
+>
+
+</div>
+
+<div class="persona-result">
+
+<h3>
+    👤 User Persona
+</h3>
+
+<div id="persona"></div>
+
+</div>
+
+</div>
+
+<!-- AI ANALYSIS -->
+
+<div
+    id="analysis"
+    class="analysis-content"
+></div>
+
+<!-- ANALYZE AGAIN -->
+
+<button
+id="analyzeAgain"
+type="button"
+
+>
+
+Analyze Another Screenshot
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+
+/* ELEMENTS */
+
+
+const form =
+    document.getElementById(
+        "uploadForm"
+    );
+
+
+const result =
+    document.getElementById(
+        "result"
+    );
+
+
+const loadingScreen =
+    document.getElementById(
+        "loadingScreen"
+    );
+
+
+const actualResults =
+    document.getElementById(
+        "actualResults"
+    );
+
+
+const uploadedImage =
+    document.getElementById(
+        "uploadedImage"
+    );
+
+
+const persona =
+    document.getElementById(
+        "persona"
+    );
+
+
+const analysis =
+    document.getElementById(
+        "analysis"
+    );
+
+
+const scoreNumber =
+    document.getElementById(
+        "scoreNumber"
+    );
+
+
+const scoreDescription =
+    document.getElementById(
+        "scoreDescription"
+    );
+
+
+const analyzeAgain =
+    document.getElementById(
+        "analyzeAgain"
+    );
+
+
+const personaButtons =
+    document.querySelectorAll(
+        ".persona-option"
+    );
+
+
+/* PERSONA PRESETS */
+
+
+personaButtons.forEach(
+    function(button) {
+
+
+        button.addEventListener(
+            "click",
+            function() {
+
+
+                personaButtons.forEach(
+                    function(otherButton) {
+
+                        otherButton.classList.remove(
+                            "selected"
+                        );
+
+                    }
+                );
+
+
+                button.classList.add(
+                    "selected"
+                );
+
+
+                document.getElementById(
+                    "age"
+                ).value =
+                    button.dataset.age;
+
+
+                document.getElementById(
+                    "location"
+                ).value =
+                    button.dataset.location;
+
+
+                document.getElementById(
+                    "occupation"
+                ).value =
+                    button.dataset.occupation;
+
+            }
+        );
+
+    }
+);
+
+
+/* SUBMIT */
+
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+
+        event.preventDefault();
+
+
+        const file =
+            document.getElementById(
+                "file"
+            ).files[0];
+
+
+        const age =
+            document.getElementById(
+                "age"
+            ).value;
+
+
+        const location =
+            document.getElementById(
+                "location"
+            ).value;
+
+
+        const occupation =
+            document.getElementById(
+                "occupation"
+            ).value;
+
+
+        if (!file) {
+
+            alert(
+                "Please select a screenshot."
+            );
+
+            return;
+
+        }
+
+
+        /* IMAGE PREVIEW */
+
+
+        uploadedImage.src =
+            URL.createObjectURL(
+                file
+            );
+
+
+        /* FORM DATA */
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "file",
+            file
+        );
+
+
+        formData.append(
+            "age",
+            age
+        );
+
+
+        formData.append(
+            "location",
+            location
+        );
+
+
+        formData.append(
+            "occupation",
+            occupation
+        );
+
+
+        /* SHOW RESULTS CARD */
+
+
+        result.style.display =
+            "block";
+
+
+        loadingScreen.style.display =
+            "block";
+
+
+        actualResults.style.display =
+            "none";
+
+
+        result.scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+        try {
+
+
+            const response =
+                await fetch(
+                    "/upload",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "SERVER RESPONSE:",
+                data
+            );
+
+
+            if (data.analysis) {
+
+
+                /* GET UX SCORE */
+
+
+                const scoreMatch =
+                    data.analysis.match(
+                        /UX_SCORE:\s*(\d+)/i
+                    );
+
+
+                let score =
+                    scoreMatch
+                        ? parseInt(
+                            scoreMatch[1]
+                        )
+                        : 0;
+
+
+                scoreNumber.textContent =
+                    score;
+                    document
+    .querySelector(".score-circle")
+    .classList.remove(
+        "score-excellent",
+        "score-very-good",
+        "score-good",
+        "score-needs-improvement",
+        "score-poor"
+    );
+
+
+                /* SCORE DESCRIPTION */
+
+const scoreCircle =
+    document.querySelector(
+        ".score-circle"
+    );
+
+
+/* Remove previous score styles */
+
+scoreCircle.classList.remove(
+    "score-excellent",
+    "score-very-good",
+    "score-good",
+    "score-needs-improvement",
+    "score-poor"
+);
+
+
+/* Apply score category */
+
+if (score >= 90) {
+
+    scoreDescription.textContent =
+        "Excellent user experience";
+
+    scoreCircle.classList.add(
+        "score-excellent"
+    );
+
+}
+
+else if (score >= 80) {
+
+    scoreDescription.textContent =
+        "Very good user experience";
+
+    scoreCircle.classList.add(
+        "score-very-good"
+    );
+
+}
+
+else if (score >= 70) {
+
+    scoreDescription.textContent =
+        "Good, but there is room for improvement";
+
+    scoreCircle.classList.add(
+        "score-good"
+    );
+
+}
+
+else if (score >= 60) {
+
+    scoreDescription.textContent =
+        "This experience needs improvement";
+
+    scoreCircle.classList.add(
+        "score-needs-improvement"
+    );
+
+}
+
+else {
+
+    scoreDescription.textContent =
+        "Significant UX improvements are needed";
+
+    scoreCircle.classList.add(
+        "score-poor"
+    );
+
+}
+
+
+                /* PERSONA */
+
+
+                persona.innerHTML = `
+
+                    <strong>
+                        ${data.age}-year-old
+                        ${data.occupation}
+                    </strong>
+
+                    <br><br>
+
+                    ${data.location}
+
+                    <br><br>
+
+                    This analysis evaluates the
+                    interface from this user's
+                    perspective.
+
+                `;
+
+
+                /* REMOVE SCORE FROM ANALYSIS */
+
+
+                let text =
+                    data.analysis
+                        .replace(
+                            /UX_SCORE:\s*\d+/i,
+                            ""
+                        )
+                        .replace(
+                            /â€™/g,
+                            "’"
+                        )
+                        .replace(
+                            /â€œ/g,
+                            "“"
+                        )
+                        .replace(
+                            /â€/g,
+                            "”"
+                        )
+                        .replace(
+                            /â€“/g,
+                            "–"
+                        );
+
+
+                /* SECTIONS */
+
+
+                const sections = [
+
+                    "FIRST IMPRESSION",
+
+                    "VISUAL DESIGN",
+
+                    "USABILITY",
+
+                    "TRUST & CREDIBILITY",
+
+                    "SHOPPING EXPERIENCE",
+
+                    "PAIN POINTS",
+
+                    "RECOMMENDATIONS"
+
+                ];
+
+
+                let output = "";
+
+
+                for (
+                    let i = 0;
+                    i < sections.length;
+                    i++
+                ) {
+
+
+                    const current =
+                        sections[i];
+
+
+                    const next =
+                        sections[i + 1];
+
+
+                    let start =
+                        text.indexOf(
+                            current + ":"
+                        );
+
+
+                    if (
+                        start === -1
+                    ) {
+
+                        continue;
+
+                    }
+
+
+                    start +=
+                        current.length + 1;
+
+
+                    let end;
+
+
+                    if (next) {
+
+                        end =
+                            text.indexOf(
+                                next + ":",
+                                start
+                            );
+
+                    }
+
+                    else {
+
+                        end =
+                            text.length;
+
+                    }
+
+
+                    let content =
+                        text.substring(
+                            start,
+                            end === -1
+                                ? text.length
+                                : end
+                        ).trim();
+
+
+                    if (
+                        current ===
+                        "RECOMMENDATIONS"
+                    ) {
+
+
+                        const items =
+                            content
+                                .split(
+                                    /\n(?=\d+\.)/
+                                )
+                                .filter(
+                                    item =>
+                                        item.trim()
+                                );
+
+
+                        output += `
+
+                            <div class="section">
+
+                                <h3>
+                                    💡 ${current}
+                                </h3>
+
+                                <ol class="recommendations">
+
+                                    ${items
+                                        .map(
+                                            item =>
+                                                `<li>${item.replace(/^\d+\.\s*/, "")}</li>`
+                                        )
+                                        .join("")
+                                    }
+
+                                </ol>
+
+                            </div>
+
+                        `;
+
+                    }
+
+                    else {
+
+
+                        output += `
+
+                            <div class="section">
+
+                                <h3>
+                                    ${getIcon(current)}
+                                    ${current}
+                                </h3>
+
+                                <p>
+                                    ${content.replace(
+                                        /\n/g,
+                                        "<br>"
+                                    )}
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    }
+
+                }
+
+
+                analysis.innerHTML =
+                    output;
+
+
+                /* HIDE LOADING */
+
+
+                loadingScreen.style.display =
+                    "none";
+
+
+                actualResults.style.display =
+                    "block";
+
+
+                /* SCROLL TO RESULTS */
+
+
+                result.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+
+            }
+
+
+            else {
+
+
+                loadingScreen.style.display =
+                    "none";
+
+
+                actualResults.style.display =
+                    "block";
+
+
+                analysis.innerHTML = `
+
+                    <div class="error">
+
+                        <h3>
+                            Something went wrong.
+                        </h3>
+
+                        <p>
+                            ${data.message ||
+                            "The AI could not analyze the screenshot."}
+                        </p>
+
+                        <p>
+                            ${data.error || ""}
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+
+        }
+
+
+        catch (error) {
+
+
+            loadingScreen.style.display =
+                "none";
+
+
+            actualResults.style.display =
+                "block";
+
+
+            analysis.innerHTML = `
+
+                <div class="error">
+
+                    <h3>
+                        Connection Error
+                    </h3>
+
+                    <p>
+                        ${error.message}
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+
+    }
+
+);
+
+
+/* ANALYZE AGAIN */
+
+
+analyzeAgain.addEventListener(
+    "click",
+    function() {
+
+
+        form.reset();
+
+
+        personaButtons.forEach(
+            function(button) {
+
+                button.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+        result.style.display =
+            "none";
+
+
+        loadingScreen.style.display =
+            "block";
+
+
+        actualResults.style.display =
+            "none";
+
+
+        uploadedImage.src =
+            "";
+
+
+        scoreNumber.textContent =
+            "--";
+
+
+        scoreDescription.textContent =
+            "";
+
+
+        persona.innerHTML =
+            "";
+
+
+        analysis.innerHTML =
+            "";
+
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
+);
+
+
+/* ICONS */
+
+
+function getIcon(section) {
+
+
+    const icons = {
+
+        "FIRST IMPRESSION": "💭",
+
+        "VISUAL DESIGN": "🎨",
+
+        "USABILITY": "🖱️",
+
+        "TRUST & CREDIBILITY": "🔒",
+
+        "SHOPPING EXPERIENCE": "🛍️",
+
+        "PAIN POINTS": "⚠️",
+
+        "RECOMMENDATIONS": "💡"
+
+    };
+
+
+    return icons[section]
+        || "✨";
+
+}
+
+
+</script>
+
+</body>
+
+</html>
