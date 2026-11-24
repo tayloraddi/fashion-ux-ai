@@ -45,7 +45,7 @@ Python, FastAPI, Jinja2, Google Gemini API (`google-genai`), HTML, CSS, JavaScri
  
    uvicorn app:app --reload
    
-5. Open http://127.0.0.1:8000 in your browser.
+5. Open [http://127.0.0.1:8000](https://fashion-ux-ai.onrender.com) in your browser.
 
 ## Project structure
 
